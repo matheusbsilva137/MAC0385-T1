@@ -1,10 +1,12 @@
+// Matheus Barbosa Silva - NUSP: 11221741
+// Tarefa 1 - Deque Persistente
+
 class DequeNode {
 	private:
 		int value;
 		DequeNode* parent;
 		DequeNode* jump;
 		int depth;
-		bool isRoot(DequeNode* u);
 	public:
 		DequeNode(int x, DequeNode* p, int d);
 		void setValue(int x);
@@ -15,17 +17,17 @@ class DequeNode {
 		DequeNode* getParent();
 		DequeNode* getJump();
 		int getDepth();
+		bool isRoot();
 };
 
-bool DequeNode::isRoot(DequeNode* u) {
-	return (u != NULL && u->getParent() == NULL);
+bool DequeNode::isRoot() {
+	return (this->getParent() == NULL);
 }
 
 DequeNode::DequeNode(int x, DequeNode* p, int d) {
     this->setValue(x);
 	this->setParent(p);
 	this->setDepth(d);
-	//if (!isRoot(this)) addLeaf(this); TODO
 };
 
 void DequeNode::setValue(int x) {
