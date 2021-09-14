@@ -19,13 +19,13 @@ class PersistentDeque {
 		~PersistentDeque();
 		deque Deque();
 		deque getDeque(int i);
-		DequeNode front(deque d);
-		DequeNode back(deque d);
+		int front(deque d);
+		int back(deque d);
 		deque pushFront(deque d, int x);
 		deque pushBack(deque d, int x);
 		deque popFront(deque d);
 		deque popBack(deque d);
-		DequeNode Kth(deque d, int k);
+		int Kth(deque d, int k);
 		void print(deque d);
 		int getLastDequeIndex();
 };
@@ -80,9 +80,7 @@ void PersistentDeque::addLeaf(DequeNode* u) {
 };
 
 deque PersistentDeque::swap(deque d) {
-	deque swappedDeque = { NULL, NULL };
-	swappedDeque.first = d.last;
-	swappedDeque.last = d.first;
+	deque swappedDeque = { d.last, d.first };
 	return swappedDeque;
 };
 
@@ -96,12 +94,12 @@ deque PersistentDeque::getDeque(int i) {
 	return dequeList[i];
 };
 
-DequeNode PersistentDeque::front(deque d) {
-	return *(d.first);
+int PersistentDeque::front(deque d) {
+	return d.first->getValue();
 };
 
-DequeNode PersistentDeque::back(deque d) {
-	return *(d.last);
+int PersistentDeque::back(deque d) {
+	return d.last->getValue();
 };
 
 deque PersistentDeque::pushFront(deque d, int x) {
@@ -151,13 +149,13 @@ deque PersistentDeque::popBack(deque d) {
 	return res;
 };
 
-DequeNode PersistentDeque::Kth(deque d, int k) {
+int PersistentDeque::Kth(deque d, int k) {
 	DequeNode* mid = LCA(d.first, d.last);
 	int l1 = d.first->getDepth() - mid->getDepth();
 	int l2 = d.last->getDepth() - mid->getDepth();
 
-	if (k - 1 <= l1) return *(LevelAncestor(k-1, d.first));
-	else return *(LevelAncestor(l2 - (k - 1 - l1), d.last));
+	if (k - 1 <= l1) return LevelAncestor(k-1, d.first)->getValue();
+	else return LevelAncestor(l2 - (k - 1 - l1), d.last)->getValue();
 };
 
 void PersistentDeque::printRecursive(deque d) {
@@ -172,9 +170,14 @@ void PersistentDeque::printRecursive(deque d) {
 			deque nextDeque = { d.first->getParent(), d.last };
 			printRecursive(nextDeque);
 		} else {
-			DequeNode* second = LevelAncestor(d.last->getDepth() - d.first->getDepth() - 1, d.last);
-			deque nextDeque = { second, d.last };
-			printRecursive(nextDeque);
+			DequeNode* u = d.last;
+			vector<int> values;
+			while (u != mid) {
+				values.push_back(u->getValue());
+				u = u->getParent();
+			}
+
+			for (int i = values.size() - 1; i >= 0; i--) cout << values[i] << " ";
 		}
 	}
 };

@@ -26,16 +26,16 @@ void callPersistentDequeCommand(string command, vector<int> args, PersistentDequ
 			printDequePrompt(pd->getLastDequeIndex());
 			pd->print(res);
 		} else if (command == "front") {
-			DequeNode res = pd->front(pd->getDeque(args[0]));
-			cout << prompt << "Front (Deque " << pd->getLastDequeIndex() << "): " << res.getValue() << endl;
+			int res = pd->front(pd->getDeque(args[0]));
+			cout << prompt << "Front (Deque " << pd->getLastDequeIndex() << "): " << res << endl;
 		} else {
-			DequeNode res = pd->back(pd->getDeque(args[0]));
-			cout << prompt << "Back (Deque " << pd->getLastDequeIndex() << "): " << res.getValue() << endl;
+			int res = pd->back(pd->getDeque(args[0]));
+			cout << prompt << "Back (Deque " << pd->getLastDequeIndex() << "): " << res << endl;
 		}
 	} else if (args.size() == 2) {
 		if (command == "kth") {
-			DequeNode res = pd->Kth(pd->getDeque(args[0]), args[1]);
-			cout << prompt << args[1] << "º Elemento da Deque " << args[0] << ": " << res.getValue() << endl;
+			int res = pd->Kth(pd->getDeque(args[0]), args[1]);
+			cout << prompt << args[1] << "º Elemento da Deque " << args[0] << ": " << res << endl;
 		} else {
 			deque res;
 			if (command == "pushfront") res = pd->pushFront(pd->getDeque(args[0]), args[1]);
@@ -59,8 +59,7 @@ int main() {
 	cout << prompt << "TESTES DE DEQUE PERSISTENTE" << endl;
 	cout << " * Insira o comando exit() para terminar a execução." << endl;
 
-	while (command != exit) {
-		getline(cin, command, '(');
+	while (getline(cin, command, '(') && command != exit) {
 		transform(command.begin(), command.end(), command.begin(), ::tolower);
 
 		if (count(twoArgsCommands.begin(), twoArgsCommands.end(), command)) {
@@ -69,7 +68,7 @@ int main() {
 			args.push_back(stoi(arg1));
 			args.push_back(stoi(arg2));
 			getline(cin, arg1);
-		} else if (command != "deque" && command != exit){
+		} else if (command != "deque"){
 			getline(cin, arg1, ')');
 			args.push_back(stoi(arg1));
 			getline(cin, arg1);
