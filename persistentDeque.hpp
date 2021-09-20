@@ -14,7 +14,7 @@ class PersistentDeque {
 		DequeNode* LevelAncestor(int k, DequeNode* u);
 		void addLeaf(DequeNode* u);
 		deque swap(deque d);
-		void printRecursive(deque d);
+		void RecursivePrint(deque d);
 	public:
 		~PersistentDeque();
 		deque Deque();
@@ -158,7 +158,7 @@ int PersistentDeque::Kth(deque d, int k) {
 	else return LevelAncestor(l2 - (k - 1 - l1), d.last)->getValue();
 };
 
-void PersistentDeque::printRecursive(deque d) {
+void PersistentDeque::RecursivePrint(deque d) {
 	if (d.first == d.last) {
 		if (d.first != NULL) cout << d.first->getValue();
 		else cout << "(VAZIA)";
@@ -168,7 +168,7 @@ void PersistentDeque::printRecursive(deque d) {
 
 		if (d.first != mid) {
 			deque nextDeque = { d.first->getParent(), d.last };
-			printRecursive(nextDeque);
+			RecursivePrint(nextDeque);
 		} else {
 			DequeNode* u = d.last;
 			vector<int> values;
@@ -183,7 +183,7 @@ void PersistentDeque::printRecursive(deque d) {
 };
 
 void PersistentDeque::print(deque d) {
-	printRecursive(d);
+	RecursivePrint(d);
 	cout << endl;
 };
 
